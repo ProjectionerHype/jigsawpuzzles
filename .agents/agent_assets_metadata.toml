@@ -1,0 +1,62 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "j1Vu1PzDzEHCFeYKYlPlv"
+uri = "file://artifacts/jigsaw-puzzle/public/images/mountains.png"
+type = "image"
+title = "Mountains landscape"
+
+[[generated]]
+id = "ExdDtm0dndTr1m9kID0bu"
+uri = "file://artifacts/jigsaw-puzzle/public/images/dog.png"
+type = "image"
+title = "Golden Retriever"
+
+[[generated]]
+id = "vNKJrNgDGy8u1GxQLr4gb"
+uri = "file://artifacts/jigsaw-puzzle/public/images/paris.png"
+type = "image"
+title = "Paris at sunset"
+
+[[generated]]
+id = "0gJcvSa4YmkHk_O_jAz9q"
+uri = "file://artifacts/jigsaw-puzzle/public/images/abstract.png"
+type = "image"
+title = "Abstract painting"
+
+[[generated]]
+id = "K5NiA05XIK9UFh-utXafr"
+uri = "file://artifacts/jigsaw-puzzle/public/images/galaxy.png"
+type = "image"
+title = "Galaxy in space"
+
+[[generated]]
+id = "ac9vPWs1s7ZEqkYLgj0hc"
+uri = "file://artifacts/jigsaw-puzzle/public/images/forest.png"
+type = "image"
+title = "Forest"
+
+[[generated]]
+id = "a8GtnqmH_1qHWJYNyQsnC"
+uri = "file://artifacts/jigsaw-puzzle/public/images/waterfall.png"
+type = "image"
+title = "Waterfall"
+
+[[generated]]
+id = "DRNqwq2EpgqaiET7dfE9i"
+uri = "file://artifacts/jigsaw-puzzle/public/images/cat.png"
+type = "image"
+title = "Cat by window"
+
+[[generated]]
+id = "eH3xP_sCRdSoeSjUXcpOS"
+uri = "file://artifacts/jigsaw-puzzle/public/images/tokyo.png"
+type = "image"
+title = "Tokyo neon"
+
+[[generated]]
+id = "tdS4QS19pDA_0xo4BFPTq"
+uri = "file://artifacts/jigsaw-puzzle/public/images/venice.png"
+type = "image"
+title = "Venice canals"
