@@ -1,4 +1,4 @@
-import { Switch, Route, Router as WouterRouter } from "wouter";
+import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -11,15 +11,35 @@ import { Header, Footer } from "@/components/layout";
 
 const queryClient = new QueryClient();
 
-function Router() {
+function Shell() {
+  const [location] = useLocation();
+  const isPlay = location.startsWith("/play");
+
+  if (isPlay) {
+    return (
+      <div className="h-screen w-screen flex flex-col overflow-hidden bg-background">
+        <main className="flex-1 flex flex-col min-h-0">
+          <Switch>
+            <Route path="/play" component={Play} />
+          </Switch>
+        </main>
+      </div>
+    );
+  }
+
   return (
-    <Switch>
-      <Route path="/" component={Home} />
-      <Route path="/gallery" component={Gallery} />
-      <Route path="/play" component={Play} />
-      <Route path="/how-to-play" component={HowToPlay} />
-      <Route component={NotFound} />
-    </Switch>
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <main className="flex-1 flex flex-col mt-20">
+        <Switch>
+          <Route path="/" component={Home} />
+          <Route path="/gallery" component={Gallery} />
+          <Route path="/how-to-play" component={HowToPlay} />
+          <Route component={NotFound} />
+        </Switch>
+      </main>
+      <Footer />
+    </div>
   );
 }
 
@@ -28,13 +48,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-          <div className="flex flex-col min-h-screen">
-            <Header />
-            <main className="flex-1 flex flex-col mt-20">
-              <Router />
-            </main>
-            <Footer />
-          </div>
+          <Shell />
         </WouterRouter>
         <Toaster />
       </TooltipProvider>

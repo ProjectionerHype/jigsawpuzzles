@@ -1,5 +1,5 @@
-import { useEffect, useState, useRef, useMemo, useCallback } from "react";
-import { useLocation, useSearch } from "wouter";
+import { useEffect, useState, useRef, useMemo } from "react";
+import { useLocation, useSearch, Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { Play, Pause, RotateCcw, Shuffle, Eye, Lightbulb, CheckCircle2 } from "lucide-react";
 import { PUZZLE_IMAGES, DIFFICULTIES } from "@/lib/images";
@@ -306,12 +306,8 @@ export default function PlayPage() {
     setTimeout(() => setHintPieceId(null), 2000);
   };
 
-  if (!isReady) {
-    return <div className="flex-1 flex items-center justify-center bg-background"><div className="animate-pulse font-serif text-xl">Loading Puzzle...</div></div>;
-  }
-
-  const pieceW = boardSize.w / difficulty.cols;
-  const pieceH = boardSize.h / difficulty.rows;
+  const pieceW = boardSize.w ? boardSize.w / difficulty.cols : 0;
+  const pieceH = boardSize.h ? boardSize.h / difficulty.rows : 0;
   const lockedCount = pieces.filter(p => p.isLocked).length;
 
   return (
