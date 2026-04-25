@@ -33,6 +33,7 @@ export default function PlayPage() {
   const difficulty = DIFFICULTIES.find(d => d.pieces === piecesParam) || DIFFICULTIES[1];
   
   const [boardSize, setBoardSize] = useState({ w: 0, h: 0 });
+  const [containerSize, setContainerSize] = useState({ w: 0, h: 0 });
   const [isReady, setIsReady] = useState(false);
   const [pieces, setPieces] = useState<PuzzleStatePiece[]>([]);
   const [time, setTime] = useState(0);
@@ -70,21 +71,23 @@ export default function PlayPage() {
     const updateSize = () => {
       if (!containerRef.current) return;
       const rect = containerRef.current.getBoundingClientRect();
-      const padding = 40;
-      
-      // Target aspect ratio of the image (assuming 4:3 for our generated images)
+      setContainerSize({ w: Math.floor(rect.width), h: Math.floor(rect.height) });
+
       const targetAspect = 4 / 3;
-      
-      let w = rect.width - padding * 2;
+      // Reserve generous tray margin around the board so all pieces stay visible
+      const isMobile = rect.width < 768;
+      const trayMargin = isMobile ? 80 : 160;
+
+      const availW = Math.max(200, rect.width - trayMargin * 2);
+      const availH = Math.max(200, rect.height - trayMargin * 2);
+
+      let w = availW;
       let h = w / targetAspect;
-      
-      // If it's too tall, constrain by height instead
-      const maxH = rect.height - 150; // leave room for controls
-      if (h > maxH) {
-        h = maxH;
+      if (h > availH) {
+        h = availH;
         w = h * targetAspect;
       }
-      
+
       setBoardSize({ w: Math.floor(w), h: Math.floor(h) });
     };
     
@@ -95,37 +98,98 @@ export default function PlayPage() {
 
   // Generate initial pieces once board is sized
   useEffect(() => {
-    if (!boardSize.w || !boardSize.h || isReady) return;
-    
+    if (!boardSize.w || !boardSize.h || !containerSize.w || !containerSize.h || isReady) return;
+
     const pieceW = boardSize.w / difficulty.cols;
     const pieceH = boardSize.h / difficulty.rows;
-    
-    const initialPieces: PuzzleStatePiece[] = [];
-    
-    for (let r = 0; r < difficulty.rows; r++) {
-      for (let c = 0; c < difficulty.cols; c++) {
-        // Scatter randomly around but not exactly on the board
-        const side = Math.floor(Math.random() * 4); // 0=top, 1=right, 2=bottom, 3=left
-        let startX = 0, startY = 0;
-        
-        // Simple scatter around the edges of the board
-        startX = (Math.random() - 0.5) * boardSize.w * 1.5;
-        startY = (Math.random() - 0.5) * boardSize.h * 1.5;
-        
-        initialPieces.push({
-          id: `${r}-${c}`,
-          r, c,
-          x: startX,
-          y: startY,
-          groupId: `${r}-${c}`,
-          isLocked: false
-        });
-      }
+
+    // Margins around the board (in board-relative coordinates).
+    // Board top-left in container coords = (containerW/2 - boardW/2, containerH/2 - boardH/2).
+    // So x in board coords goes from -leftMargin (visible left edge) to boardW + rightMargin (visible right edge).
+    const leftMargin = (containerSize.w - boardSize.w) / 2;
+    const rightMargin = leftMargin;
+    const topMargin = (containerSize.h - boardSize.h) / 2;
+    const bottomMargin = topMargin;
+
+    const safe = 8; // safety inset from edges
+    const gap = 16; // gap from board edge
+
+    type Zone = { name: 'left' | 'right' | 'top' | 'bottom'; capacity: number };
+    const zones: Zone[] = [];
+
+    // Estimate each zone's capacity based on how many pieces can fit (loosely)
+    const zoneCap = (zoneW: number, zoneH: number) =>
+      Math.max(1, Math.floor((zoneW * zoneH) / (pieceW * pieceH * 1.6)));
+
+    if (leftMargin > pieceW + gap + safe) {
+      zones.push({ name: 'left', capacity: zoneCap(leftMargin - gap - safe, containerSize.h - safe * 2) });
     }
-    
+    if (rightMargin > pieceW + gap + safe) {
+      zones.push({ name: 'right', capacity: zoneCap(rightMargin - gap - safe, containerSize.h - safe * 2) });
+    }
+    if (topMargin > pieceH + gap + safe) {
+      zones.push({ name: 'top', capacity: zoneCap(containerSize.w - safe * 2, topMargin - gap - safe) });
+    }
+    if (bottomMargin > pieceH + gap + safe) {
+      zones.push({ name: 'bottom', capacity: zoneCap(containerSize.w - safe * 2, bottomMargin - gap - safe) });
+    }
+
+    // Fallback: if no zone fits (very small screen), allow scatter on the board
+    if (zones.length === 0) {
+      zones.push({ name: 'right', capacity: difficulty.pieces });
+    }
+
+    // Build a flat list of slots, weighted by capacity, then shuffle so
+    // pieces don't clump in the first zone in iteration order.
+    const slots: Zone['name'][] = [];
+    zones.forEach(z => { for (let i = 0; i < z.capacity; i++) slots.push(z.name); });
+    for (let i = slots.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [slots[i], slots[j]] = [slots[j], slots[i]];
+    }
+
+    const allCells: { r: number; c: number }[] = [];
+    for (let r = 0; r < difficulty.rows; r++) {
+      for (let c = 0; c < difficulty.cols; c++) allCells.push({ r, c });
+    }
+    // Shuffle cells so layout doesn't form rows
+    for (let i = allCells.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [allCells[i], allCells[j]] = [allCells[j], allCells[i]];
+    }
+
+    const initialPieces: PuzzleStatePiece[] = allCells.map((cell, idx) => {
+      const zoneName = slots[idx % slots.length];
+
+      let x = 0, y = 0;
+      const rand = (min: number, max: number) => min + Math.random() * Math.max(0, max - min);
+
+      if (zoneName === 'left') {
+        x = rand(-leftMargin + safe, -pieceW - gap);
+        y = rand(-topMargin + safe, boardSize.h + bottomMargin - pieceH - safe);
+      } else if (zoneName === 'right') {
+        x = rand(boardSize.w + gap, boardSize.w + rightMargin - pieceW - safe);
+        y = rand(-topMargin + safe, boardSize.h + bottomMargin - pieceH - safe);
+      } else if (zoneName === 'top') {
+        x = rand(-leftMargin + safe, boardSize.w + rightMargin - pieceW - safe);
+        y = rand(-topMargin + safe, -pieceH - gap);
+      } else { // bottom
+        x = rand(-leftMargin + safe, boardSize.w + rightMargin - pieceW - safe);
+        y = rand(boardSize.h + gap, boardSize.h + bottomMargin - pieceH - safe);
+      }
+
+      return {
+        id: `${cell.r}-${cell.c}`,
+        r: cell.r, c: cell.c,
+        x, y,
+        groupId: `${cell.r}-${cell.c}`,
+        isLocked: false,
+      };
+    });
+
     setPieces(initialPieces);
     setIsReady(true);
-  }, [boardSize, difficulty, isReady]);
+  }, [boardSize, containerSize, difficulty, isReady]);
 
   // Timer
   useEffect(() => {
@@ -282,13 +346,41 @@ export default function PlayPage() {
   };
 
   const handleShuffle = () => {
+    if (!boardSize.w || !containerSize.w) return;
+    const pW = boardSize.w / difficulty.cols;
+    const pH = boardSize.h / difficulty.rows;
+    const lm = (containerSize.w - boardSize.w) / 2;
+    const tm = (containerSize.h - boardSize.h) / 2;
+    const safe = 8, gap = 16;
+
+    type ZName = 'left' | 'right' | 'top' | 'bottom';
+    const allowed: ZName[] = [];
+    if (lm > pW + gap + safe) allowed.push('left');
+    if (lm > pW + gap + safe) allowed.push('right');
+    if (tm > pH + gap + safe) allowed.push('top');
+    if (tm > pH + gap + safe) allowed.push('bottom');
+    if (allowed.length === 0) allowed.push('right');
+
+    const rand = (min: number, max: number) => min + Math.random() * Math.max(0, max - min);
+
     setPieces(prev => prev.map(p => {
       if (p.isLocked) return p;
-      return {
-        ...p,
-        x: (Math.random() - 0.5) * boardSize.w * 1.5,
-        y: (Math.random() - 0.5) * boardSize.h * 1.5
-      };
+      const zone = allowed[Math.floor(Math.random() * allowed.length)];
+      let x = 0, y = 0;
+      if (zone === 'left') {
+        x = rand(-lm + safe, -pW - gap);
+        y = rand(-tm + safe, boardSize.h + tm - pH - safe);
+      } else if (zone === 'right') {
+        x = rand(boardSize.w + gap, boardSize.w + lm - pW - safe);
+        y = rand(-tm + safe, boardSize.h + tm - pH - safe);
+      } else if (zone === 'top') {
+        x = rand(-lm + safe, boardSize.w + lm - pW - safe);
+        y = rand(-tm + safe, -pH - gap);
+      } else {
+        x = rand(-lm + safe, boardSize.w + lm - pW - safe);
+        y = rand(boardSize.h + gap, boardSize.h + tm - pH - safe);
+      }
+      return { ...p, x, y };
     }));
   };
 
