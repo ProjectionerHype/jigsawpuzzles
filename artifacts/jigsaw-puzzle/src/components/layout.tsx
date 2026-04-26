@@ -2,25 +2,43 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 
 export function LogoMark({ size = 32 }: { size?: number }) {
+  const uid = "lm";
   return (
     <svg
       width={size}
       height={size}
       viewBox="0 0 200 200"
       xmlns="http://www.w3.org/2000/svg"
-      className="rounded-md group-hover:rotate-6 transition-transform shrink-0"
+      className="rounded-[22%] shadow-sm group-hover:rotate-6 group-hover:scale-105 transition-transform shrink-0"
       aria-hidden="true"
     >
       <defs>
-        <clipPath id="logo-rounded">
+        <linearGradient id={`${uid}-bg`} x1="0" y1="0" x2="200" y2="200" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stopColor="#FF8C5A" />
+          <stop offset="0.55" stopColor="#E8593A" />
+          <stop offset="1" stopColor="#C13E25" />
+        </linearGradient>
+        <linearGradient id={`${uid}-piece`} x1="0" y1="40" x2="0" y2="170" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stopColor="#FFFFFF" />
+          <stop offset="1" stopColor="#FCEBD9" />
+        </linearGradient>
+        <clipPath id={`${uid}-clip`}>
           <rect width="200" height="200" rx="44" />
         </clipPath>
       </defs>
-      <g clipPath="url(#logo-rounded)">
-        <path fill="#E66B4F" d="M 0 0 l 100 0 l 0 30 c 0 4 4.4 8 8.8 8 c 11 0 11 24 0 24 c -4.4 0 -8.8 4 -8.8 8 l 0 30 l -30 0 c -4 0 -8 4.4 -8 8.8 c 0 11 -24 11 -24 0 c 0 -4.4 -4 -8.8 -8 -8.8 l -30 0 l 0 -100 Z" />
-        <path fill="#1F5C4D" d="M 100 0 l 100 0 l 0 100 l -30 0 c -4 0 -8 4.4 -8 8.8 c 0 11 -24 11 -24 0 c 0 -4.4 -4 -8.8 -8 -8.8 l -30 0 l 0 -30 c 0 -4 4.4 -8 8.8 -8 c 11 0 11 -24 0 -24 c -4.4 0 -8.8 -4 -8.8 -8 l 0 -30 Z" />
-        <path fill="#E8B547" d="M 0 100 l 30 0 c 4 0 8 4.4 8 8.8 c 0 11 24 11 24 0 c 0 -4.4 4 -8.8 8 -8.8 l 30 0 l 0 30 c 0 4 4.4 8 8.8 8 c 11 0 11 24 0 24 c -4.4 0 -8.8 4 -8.8 8 l 0 30 l -100 0 l 0 -100 Z" />
-        <path fill="#3A5A7A" d="M 100 100 l 30 0 c 4 0 8 4.4 8 8.8 c 0 11 24 11 24 0 c 0 -4.4 4 -8.8 8 -8.8 l 30 0 l 0 100 l -100 0 l 0 -30 c 0 -4 4.4 -8 8.8 -8 c 11 0 11 -24 0 -24 c -4.4 0 -8.8 -4 -8.8 -8 l 0 -30 Z" />
+      <g clipPath={`url(#${uid}-clip)`}>
+        <rect width="200" height="200" fill={`url(#${uid}-bg)`} />
+        <ellipse cx="60" cy="-10" rx="140" ry="70" fill="#FFFFFF" opacity="0.22" />
+        <circle cx="170" cy="180" r="30" fill="#1F5C4D" opacity="0.18" />
+        <g transform="rotate(-10 100 100)">
+          <path d="M 40 55 L 84 55 A 16 16 0 0 1 116 55 L 140 55 L 140 89 A 16 16 0 0 1 140 121 L 140 155 L 40 155 Z"
+                fill="#1F5C4D" opacity="0.30" transform="translate(4 6)" />
+          <path d="M 40 55 L 84 55 A 16 16 0 0 1 116 55 L 140 55 L 140 89 A 16 16 0 0 1 140 121 L 140 155 L 40 155 Z"
+                fill={`url(#${uid}-piece)`} />
+          <circle cx="68" cy="92" r="7" fill="#E8B547" />
+          <circle cx="100" cy="120" r="5" fill="#3A5A7A" />
+          <circle cx="78" cy="135" r="3.5" fill="#1F5C4D" />
+        </g>
       </g>
     </svg>
   );
