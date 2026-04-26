@@ -54,7 +54,7 @@ export function generatePuzzleShapes(cols: number, rows: number, pieceWidth: num
         } else {
           const sign = top === 1 ? -1 : 1;          // -1 = knob out (up), +1 = socket in (down)
           const tH = h * 0.22 * sign;                // knob height
-          const lineLen = w * 0.36;                  // straight portion before knob on each side
+          const lineLen = w * 0.30;                  // straight portion before knob on each side
           const neckW = w * 0.08;                    // neck width on each side
           const bulbW = w * 0.12;                    // half-width of the bulb
           path.push(`l ${lineLen},0`);
@@ -73,7 +73,7 @@ export function generatePuzzleShapes(cols: number, rows: number, pieceWidth: num
         } else {
           const sign = right === 1 ? 1 : -1;         // +1 = knob out (right), -1 = socket in (left)
           const tW = w * 0.22 * sign;
-          const lineLen = h * 0.36;
+          const lineLen = h * 0.30;
           const neckH = h * 0.08;
           const bulbH = h * 0.12;
           path.push(`l 0,${lineLen}`);
@@ -89,7 +89,7 @@ export function generatePuzzleShapes(cols: number, rows: number, pieceWidth: num
         } else {
           const sign = bottom === 1 ? 1 : -1;        // +1 = knob out (down), -1 = socket in (up)
           const tH = h * 0.22 * sign;
-          const lineLen = w * 0.36;
+          const lineLen = w * 0.30;
           const neckW = w * 0.08;
           const bulbW = w * 0.12;
           path.push(`l ${-lineLen},0`);
@@ -105,7 +105,7 @@ export function generatePuzzleShapes(cols: number, rows: number, pieceWidth: num
         } else {
           const sign = left === 1 ? -1 : 1;          // -1 = knob out (left), +1 = socket in (right)
           const tW = w * 0.22 * sign;
-          const lineLen = h * 0.36;
+          const lineLen = h * 0.30;
           const neckH = h * 0.08;
           const bulbH = h * 0.12;
           path.push(`l 0,${-lineLen}`);

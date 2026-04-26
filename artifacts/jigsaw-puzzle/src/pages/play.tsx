@@ -90,13 +90,19 @@ export default function PlayPage() {
         w = h * targetAspect;
       }
 
-      setBoardSize({ w: Math.floor(w), h: Math.floor(h) });
+      // Round board dims down to exact multiples of cols/rows so each piece
+      // gets an integer cell size and there are no sub-pixel gaps at the seams.
+      const cols = difficulty.cols;
+      const rows = difficulty.rows;
+      const finalW = Math.floor(w / cols) * cols;
+      const finalH = Math.floor(h / rows) * rows;
+      setBoardSize({ w: finalW, h: finalH });
     };
     
     updateSize();
     window.addEventListener('resize', updateSize);
     return () => window.removeEventListener('resize', updateSize);
-  }, [image]);
+  }, [image, difficulty.cols, difficulty.rows]);
 
   // Generate initial pieces once board is sized
   useEffect(() => {
