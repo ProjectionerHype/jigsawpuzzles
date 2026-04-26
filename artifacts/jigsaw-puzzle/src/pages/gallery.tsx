@@ -7,7 +7,7 @@ export default function Gallery() {
   const [activeCategory, setActiveCategory] = useState<Category | "All">("All");
 
   useEffect(() => {
-    document.title = "Puzzle Gallery - Free Online Jigsaw Puzzle Game";
+    document.title = "Free Online Jigsaw Puzzle Game";
   }, []);
 
   const categories: (Category | "All")[] = ["All", "Nature", "Animals", "Cities", "Art", "Space"];
@@ -19,8 +19,8 @@ export default function Gallery() {
   return (
     <div className="container mx-auto px-4 md:px-6 py-12">
       <div className="text-center max-w-2xl mx-auto mb-12">
-        <h1 className="text-4xl font-serif font-bold text-foreground mb-4">Puzzle Gallery</h1>
-        <p className="text-muted-foreground text-lg">Choose a beautiful image to start your next jigsaw puzzle experience.</p>
+        <h1 className="text-4xl md:text-5xl font-serif font-bold text-foreground mb-4">Free Online Jigsaw Puzzle Game</h1>
+        <p className="text-muted-foreground text-lg">Pick an image, choose a difficulty, and start playing — no signup, no ads.</p>
       </div>
 
       <div className="flex flex-wrap justify-center gap-2 mb-12">

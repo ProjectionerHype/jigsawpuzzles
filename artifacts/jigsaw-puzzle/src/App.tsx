@@ -3,7 +3,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
-import Home from "@/pages/home";
 import Gallery from "@/pages/gallery";
 import Play from "@/pages/play";
 import HowToPlay from "@/pages/how-to-play";
@@ -32,7 +31,7 @@ function Shell() {
       <Header />
       <main className="flex-1 flex flex-col mt-20">
         <Switch>
-          <Route path="/" component={Home} />
+          <Route path="/" component={Gallery} />
           <Route path="/gallery" component={Gallery} />
           <Route path="/how-to-play" component={HowToPlay} />
           <Route component={NotFound} />

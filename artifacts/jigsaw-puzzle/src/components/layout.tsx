@@ -58,7 +58,7 @@ export function Header() {
         </Link>
 
         <nav className="hidden md:flex items-center gap-8">
-          <Link href="/gallery" className={`text-sm font-medium transition-colors hover:text-primary ${location === "/gallery" ? "text-primary" : "text-muted-foreground"}`}>
+          <Link href="/" className={`text-sm font-medium transition-colors hover:text-primary ${location === "/" || location === "/gallery" ? "text-primary" : "text-muted-foreground"}`}>
             Play
           </Link>
           <Link href="/how-to-play" className={`text-sm font-medium transition-colors hover:text-primary ${location === "/how-to-play" ? "text-primary" : "text-muted-foreground"}`}>
