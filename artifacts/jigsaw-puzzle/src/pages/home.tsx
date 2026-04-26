@@ -82,11 +82,6 @@ export default function Home() {
   }, []);
 
   const featureIcons = ["🧩", "🎨", "⏱️"];
-  const stats = [
-    { num: "100%", label: "Free to play" },
-    { num: "12–96", label: "Pieces per puzzle" },
-    { num: "0", label: "Ads or signups" },
-  ];
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -141,15 +136,6 @@ export default function Home() {
                 </Link>
               </div>
 
-              {/* Stats strip */}
-              <div className="grid grid-cols-3 gap-2 mt-6 max-w-md mx-auto md:mx-0">
-                {stats.map((s) => (
-                  <div key={s.label} className="text-center md:text-left">
-                    <div className="font-serif font-bold text-2xl md:text-3xl text-primary">{s.num}</div>
-                    <div className="text-xs text-muted-foreground leading-tight">{s.label}</div>
-                  </div>
-                ))}
-              </div>
             </motion.div>
 
             <motion.div
