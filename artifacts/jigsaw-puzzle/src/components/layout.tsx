@@ -2,49 +2,25 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 
 export function LogoMark({ size = 32 }: { size?: number }) {
-  const uid = "lm";
-  const piecePath = "M 39 61 L 67 61 A 22 22 0 0 0 111 61 L 139 61 L 139 89 A 22 22 0 0 1 139 133 L 139 161 L 111 161 A 22 22 0 0 0 67 161 L 39 161 L 39 133 A 22 22 0 0 0 39 89 Z";
   return (
     <svg
       width={size}
       height={size}
       viewBox="0 0 200 200"
       xmlns="http://www.w3.org/2000/svg"
-      className="rounded-[22%] shadow-md group-hover:rotate-6 group-hover:scale-105 transition-transform shrink-0"
+      className="rounded-md group-hover:rotate-6 transition-transform shrink-0"
       aria-hidden="true"
     >
       <defs>
-        <radialGradient id={`${uid}-bg`} cx="50%" cy="38%" r="78%">
-          <stop offset="0" stopColor="#FFB070" />
-          <stop offset="0.55" stopColor="#E8593A" />
-          <stop offset="1" stopColor="#9A2614" />
-        </radialGradient>
-        <linearGradient id={`${uid}-piece`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#FFE680" />
-          <stop offset="0.5" stopColor="#F0AE2A" />
-          <stop offset="1" stopColor="#C8801A" />
-        </linearGradient>
-        <clipPath id={`${uid}-clip`}>
+        <clipPath id="logo-rounded">
           <rect width="200" height="200" rx="44" />
         </clipPath>
-        <path id={`${uid}-pp`} d={piecePath} />
-        <clipPath id={`${uid}-ppc`}>
-          <use href={`#${uid}-pp`} />
-        </clipPath>
       </defs>
-      <g clipPath={`url(#${uid}-clip)`}>
-        <rect width="200" height="200" fill={`url(#${uid}-bg)`} />
-        <ellipse cx="100" cy="186" rx="72" ry="9" fill="#3A0F02" opacity="0.45" />
-        <g transform="rotate(-8 100 100)">
-          <use href={`#${uid}-pp`} fill="#3A0F02" opacity="0.55" transform="translate(4 6)" />
-          <use href={`#${uid}-pp`} fill={`url(#${uid}-piece)`} stroke="#5A2A05" strokeWidth="5" strokeLinejoin="round" />
-          <g clipPath={`url(#${uid}-ppc)`}>
-            <ellipse cx="89" cy="50" rx="55" ry="22" fill="#FFFFFF" opacity="0.55" />
-          </g>
-        </g>
-        <path d="M 32 36 l 2 -10 l 2 10 l 10 2 l -10 2 l -2 10 l -2 -10 l -10 -2 z" fill="#FFFFFF" opacity="0.95" />
-        <circle cx="170" cy="42" r="3" fill="#FFFFFF" opacity="0.9" />
-        <circle cx="42" cy="170" r="2" fill="#FFFFFF" opacity="0.8" />
+      <g clipPath="url(#logo-rounded)">
+        <path fill="#E66B4F" d="M 0 0 l 100 0 l 0 30 c 0 4 4.4 8 8.8 8 c 11 0 11 24 0 24 c -4.4 0 -8.8 4 -8.8 8 l 0 30 l -30 0 c -4 0 -8 4.4 -8 8.8 c 0 11 -24 11 -24 0 c 0 -4.4 -4 -8.8 -8 -8.8 l -30 0 l 0 -100 Z" />
+        <path fill="#1F5C4D" d="M 100 0 l 100 0 l 0 100 l -30 0 c -4 0 -8 4.4 -8 8.8 c 0 11 -24 11 -24 0 c 0 -4.4 -4 -8.8 -8 -8.8 l -30 0 l 0 -30 c 0 -4 4.4 -8 8.8 -8 c 11 0 11 -24 0 -24 c -4.4 0 -8.8 -4 -8.8 -8 l 0 -30 Z" />
+        <path fill="#E8B547" d="M 0 100 l 30 0 c 4 0 8 4.4 8 8.8 c 0 11 24 11 24 0 c 0 -4.4 4 -8.8 8 -8.8 l 30 0 l 0 30 c 0 4 4.4 8 8.8 8 c 11 0 11 24 0 24 c -4.4 0 -8.8 4 -8.8 8 l 0 30 l -100 0 l 0 -100 Z" />
+        <path fill="#3A5A7A" d="M 100 100 l 30 0 c 4 0 8 4.4 8 8.8 c 0 11 24 11 24 0 c 0 -4.4 4 -8.8 8 -8.8 l 30 0 l 0 100 l -100 0 l 0 -30 c 0 -4 4.4 -8 8.8 -8 c 11 0 11 -24 0 -24 c -4.4 0 -8.8 -4 -8.8 -8 l 0 -30 Z" />
       </g>
     </svg>
   );
