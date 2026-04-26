@@ -41,7 +41,7 @@ export const PUZZLE_IMAGES: PuzzleImage[] = [
   { id: "tiger", title: "Bengal Tiger", category: "Animals", url: u("1561731216-c3a4d99437d5"), description: "A powerful Bengal tiger staring through the grass." },
   { id: "owl", title: "Snowy Owl", category: "Animals", url: u("1518791841217-8f162f1e1131"), description: "A snowy owl with piercing yellow eyes." },
   { id: "horse", title: "Wild Horse", category: "Animals", url: u("1553284965-83fd3e82fa5a"), description: "A wild horse running across an open plain." },
-  { id: "panda", title: "Panda Cub", category: "Animals", url: u("1564509027875-99c258a16a52"), description: "A panda cub munching fresh bamboo." },
+  { id: "panda", title: "Panda Cub", category: "Animals", url: u("1540979388789-6cee28a1cdc9"), description: "A panda cub munching fresh bamboo." },
   { id: "koala", title: "Sleepy Koala", category: "Animals", url: u("1459262838948-3e2de6c1ec80"), description: "A sleepy koala curled up in a eucalyptus tree." },
   { id: "macaw", title: "Scarlet Macaw", category: "Animals", url: u("1452570053594-1b985d6ea890"), description: "A vivid scarlet macaw with brilliant feathers." },
   { id: "deer", title: "Forest Deer", category: "Animals", url: u("1484406566174-9da000fda645"), description: "A quiet deer in a sun-dappled forest clearing." },
@@ -55,9 +55,9 @@ export const PUZZLE_IMAGES: PuzzleImage[] = [
   { id: "rome", title: "Rome Colosseum", category: "Cities", url: u("1552832230-c0197dd311b5"), description: "The ancient Roman Colosseum at sunset." },
   { id: "barcelona", title: "Barcelona Streets", category: "Cities", url: u("1583422409516-2895a77efded"), description: "Gaudí-inspired streets of vibrant Barcelona." },
   { id: "kyoto", title: "Kyoto Temple", category: "Cities", url: u("1493976040374-85c8e12f0c0e"), description: "A traditional Kyoto temple framed by red gates." },
-  { id: "amsterdam", title: "Amsterdam Canals", category: "Cities", url: u("1584003564911-a5dfc2cd2f24"), description: "Charming canals and gabled houses of Amsterdam." },
+  { id: "amsterdam", title: "Amsterdam Canals", category: "Cities", url: u("1512470876302-972faa2aa9a4"), description: "Charming canals and gabled houses of Amsterdam." },
   { id: "hk-night", title: "Hong Kong Lights", category: "Cities", url: u("1536599018102-9f803c140fc1"), description: "Hong Kong's neon skyline glittering at night." },
-  { id: "marrakech", title: "Marrakech Market", category: "Cities", url: u("1539020140153-e479b8c64e4e"), description: "Color and pattern fill a busy Marrakech bazaar." },
+  { id: "marrakech", title: "Marrakech Market", category: "Cities", url: u("1597212618440-806262de4f6b"), description: "Color and pattern fill a busy Marrakech bazaar." },
 
   // ---------- Art ----------
   { id: "paint-swirl", title: "Paint Swirl", category: "Art", url: u("1547891654-e66ed7ebb968"), description: "A swirling explosion of vivid liquid paint." },
