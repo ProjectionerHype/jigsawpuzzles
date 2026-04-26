@@ -117,3 +117,84 @@
     @apply font-serif;
   }
 }
+
+/* --- Game play area atmosphere --- */
+.play-stage {
+  background-color: #1f1d2b;
+  background-image:
+    radial-gradient(1200px 700px at 50% 35%, rgba(255, 230, 190, 0.18), transparent 70%),
+    radial-gradient(900px 600px at 15% 85%, rgba(120, 200, 255, 0.10), transparent 70%),
+    radial-gradient(900px 600px at 85% 15%, rgba(255, 170, 200, 0.10), transparent 70%),
+    linear-gradient(180deg, #221f30 0%, #181626 60%, #14121f 100%);
+}
+
+.play-stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.4 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+}
+
+.play-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 45%, rgba(0, 0, 0, 0.45) 100%);
+}
+
+@keyframes float-orb-a {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(40px, -30px) scale(1.08); }
+}
+@keyframes float-orb-b {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(-50px, 25px) scale(0.95); }
+}
+@keyframes float-orb-c {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(30px, 40px) scale(1.05); }
+}
+
+.orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(70px);
+  pointer-events: none;
+  opacity: 0.55;
+}
+.orb-a { animation: float-orb-a 14s ease-in-out infinite; }
+.orb-b { animation: float-orb-b 18s ease-in-out infinite; }
+.orb-c { animation: float-orb-c 16s ease-in-out infinite; }
+
+/* Glass styling for controls bar */
+.glass-bar {
+  background: linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(248,242,228,0.88) 100%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* Premium puzzle board: subtle inner glow + crisp drop shadow */
+.puzzle-board {
+  background: linear-gradient(135deg, rgba(244, 236, 220, 0.92) 0%, rgba(232, 220, 198, 0.92) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 0 60px rgba(0, 0, 0, 0.06),
+    0 30px 60px -20px rgba(0, 0, 0, 0.55),
+    0 10px 25px -10px rgba(0, 0, 0, 0.35);
+  border-radius: 10px;
+}
+.puzzle-board::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1px dashed rgba(60, 50, 30, 0.18);
+  border-radius: 6px;
+  pointer-events: none;
+}

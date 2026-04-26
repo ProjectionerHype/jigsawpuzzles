@@ -418,7 +418,7 @@ export default function PlayPage() {
   return (
     <div className="flex-1 flex flex-col bg-background overflow-hidden relative">
       {/* Controls Bar */}
-      <div className="bg-card border-b border-border py-3 px-4 shadow-sm z-20">
+      <div className="glass-bar py-3 px-4 z-20 relative">
         <div className="container mx-auto flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-6">
             <Link href="/gallery" className="text-sm font-medium text-muted-foreground hover:text-foreground flex items-center gap-1">
@@ -477,15 +477,29 @@ export default function PlayPage() {
       {/* Play Area */}
       <div 
         ref={containerRef} 
-        className="flex-1 relative overflow-hidden flex items-center justify-center p-4 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMSIgZmlsbD0icmdiYSgwLDAsMCwwLjA1KSIvPjwvc3ZnPg==')] touch-none"
+        className="play-stage flex-1 relative overflow-hidden flex items-center justify-center p-4 touch-none"
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         onPointerLeave={handlePointerUp}
       >
+        {/* Floating ambient orbs */}
+        <div
+          className="orb orb-a"
+          style={{ width: 360, height: 360, left: '-80px', top: '-100px', background: 'radial-gradient(circle, #ffb38a 0%, transparent 70%)' }}
+        />
+        <div
+          className="orb orb-b"
+          style={{ width: 420, height: 420, right: '-120px', bottom: '-120px', background: 'radial-gradient(circle, #7fb6ff 0%, transparent 70%)' }}
+        />
+        <div
+          className="orb orb-c"
+          style={{ width: 280, height: 280, right: '15%', top: '-60px', background: 'radial-gradient(circle, #b794f4 0%, transparent 70%)' }}
+        />
+
         {/* Board Outline */}
         <div 
           ref={boardRef}
-          className="relative bg-black/5 border-2 border-dashed border-border/50 rounded-sm shadow-inner transition-opacity duration-1000"
+          className="puzzle-board relative transition-opacity duration-1000"
           style={{ 
             width: boardSize.w, 
             height: boardSize.h,
