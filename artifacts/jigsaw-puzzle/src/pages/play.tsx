@@ -450,14 +450,30 @@ export default function PlayPage() {
             >
               <Shuffle size={20} />
             </button>
-            <button 
-              onPointerDown={() => setShowPreview(true)}
-              onPointerUp={() => setShowPreview(false)}
-              onPointerLeave={() => setShowPreview(false)}
-              className="p-2 rounded-full hover:bg-secondary text-foreground transition-colors active:text-primary"
-              title="Hold to Peek"
+            <button
+              onMouseEnter={() => setShowPreview(true)}
+              onMouseLeave={() => setShowPreview(false)}
+              onFocus={() => setShowPreview(true)}
+              onBlur={() => setShowPreview(false)}
+              className="relative p-2 rounded-full hover:bg-secondary text-foreground transition-colors hover:text-primary"
+              title="Hover to see the finished picture"
+              aria-label="Preview finished picture"
             >
               <Eye size={20} />
+              {showPreview && (
+                <span className="absolute right-0 top-full mt-2 z-30 pointer-events-none">
+                  <span className="block bg-card border border-border rounded-md shadow-lg p-2">
+                    <img
+                      src={image.url}
+                      alt={`${image.title} reference`}
+                      className="block w-56 h-auto rounded-sm"
+                    />
+                    <span className="block text-center text-xs text-muted-foreground mt-1 font-medium">
+                      Reference
+                    </span>
+                  </span>
+                </span>
+              )}
             </button>
             <button 
               onClick={handleHint}
@@ -490,13 +506,6 @@ export default function PlayPage() {
             opacity: isSolved ? 0 : 1
           }}
         >
-          {showPreview && (
-            <img 
-              src={image.url} 
-              alt="Preview" 
-              className="absolute inset-0 w-full h-full object-cover opacity-30 pointer-events-none rounded-sm"
-            />
-          )}
         </div>
 
         {/* The Pieces */}
