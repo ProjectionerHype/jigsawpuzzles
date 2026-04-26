@@ -482,20 +482,6 @@ export default function PlayPage() {
         onPointerUp={handlePointerUp}
         onPointerLeave={handlePointerUp}
       >
-        {/* Floating ambient orbs */}
-        <div
-          className="orb orb-a"
-          style={{ width: 360, height: 360, left: '-80px', top: '-100px', background: 'radial-gradient(circle, #ffb38a 0%, transparent 70%)' }}
-        />
-        <div
-          className="orb orb-b"
-          style={{ width: 420, height: 420, right: '-120px', bottom: '-120px', background: 'radial-gradient(circle, #7fb6ff 0%, transparent 70%)' }}
-        />
-        <div
-          className="orb orb-c"
-          style={{ width: 280, height: 280, right: '15%', top: '-60px', background: 'radial-gradient(circle, #b794f4 0%, transparent 70%)' }}
-        />
-
         {/* Board Outline */}
         <div 
           ref={boardRef}

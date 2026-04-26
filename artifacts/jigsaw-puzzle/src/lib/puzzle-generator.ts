@@ -40,42 +40,83 @@ export function generatePuzzleShapes(cols: number, rows: number, pieceWidth: num
 
       const w = pieceWidth;
       const h = pieceHeight;
-      const tW = w * 0.25;
-      const tH = h * 0.25;
-      
+
+      // Classic interlocking jigsaw piece path.
+      // Each tabbed edge is built from 5 segments: line, neck-out, bulb, neck-in, line.
+      // The neck pinch + round bulb produces the iconic puzzle knob silhouette.
       const generatePath = () => {
-         const path = [];
-         path.push(`M 0,0`);
-         
-         // Top edge
-         if (top === 0) path.push(`l ${w},0`);
-         else {
-           const t = top === 1 ? -tH : tH;
-           path.push(`c ${w*0.2},0 ${w*0.2},${t} ${w*0.5},${t} c ${w*0.3},0 ${w*0.3},${-t} ${w*0.5},${-t}`);
-         }
-         
-         // Right edge
-         if (right === 0) path.push(`l 0,${h}`);
-         else {
-           const t = right === 1 ? tW : -tW;
-           path.push(`c 0,${h*0.2} ${t},${h*0.2} ${t},${h*0.5} c 0,${h*0.3} ${-t},${h*0.3} ${-t},${h*0.5}`);
-         }
-         
-         // Bottom edge
-         if (bottom === 0) path.push(`l ${-w},0`);
-         else {
-           const t = bottom === 1 ? tH : -tH;
-           path.push(`c ${-w*0.2},0 ${-w*0.2},${t} ${-w*0.5},${t} c ${-w*0.3},0 ${-w*0.3},${-t} ${-w*0.5},${-t}`);
-         }
-         
-         // Left edge
-         if (left === 0) path.push(`l 0,${-h}`);
-         else {
-           const t = left === 1 ? -tW : tW;
-           path.push(`c 0,${-h*0.2} ${t},${-h*0.2} ${t},${-h*0.5} c 0,${-h*0.3} ${-t},${-h*0.3} ${-t},${-h*0.5}`);
-         }
-         
-         return path.join(' ');
+        const path: string[] = [];
+        path.push(`M 0,0`);
+
+        // ---- TOP edge: travels right ----
+        if (top === 0) {
+          path.push(`l ${w},0`);
+        } else {
+          const sign = top === 1 ? -1 : 1;          // -1 = knob out (up), +1 = socket in (down)
+          const tH = h * 0.22 * sign;                // knob height
+          const lineLen = w * 0.36;                  // straight portion before knob on each side
+          const neckW = w * 0.08;                    // neck width on each side
+          const bulbW = w * 0.12;                    // half-width of the bulb
+          path.push(`l ${lineLen},0`);
+          // neck out (small s-curve out from edge)
+          path.push(`c ${neckW * 0.5},0 ${neckW},${tH * 0.2} ${neckW},${tH * 0.4}`);
+          // bulb top: large round arc up and over to mirror neck on other side
+          path.push(`c 0,${tH * 0.5} ${bulbW * 2},${tH * 0.5} ${bulbW * 2},0`);
+          // neck back in
+          path.push(`c 0,${-tH * 0.2} ${neckW * 0.5},${-tH * 0.4} ${neckW},${-tH * 0.4}`);
+          path.push(`l ${lineLen},0`);
+        }
+
+        // ---- RIGHT edge: travels down ----
+        if (right === 0) {
+          path.push(`l 0,${h}`);
+        } else {
+          const sign = right === 1 ? 1 : -1;         // +1 = knob out (right), -1 = socket in (left)
+          const tW = w * 0.22 * sign;
+          const lineLen = h * 0.36;
+          const neckH = h * 0.08;
+          const bulbH = h * 0.12;
+          path.push(`l 0,${lineLen}`);
+          path.push(`c 0,${neckH * 0.5} ${tW * 0.2},${neckH} ${tW * 0.4},${neckH}`);
+          path.push(`c ${tW * 0.5},0 ${tW * 0.5},${bulbH * 2} 0,${bulbH * 2}`);
+          path.push(`c ${-tW * 0.2},0 ${-tW * 0.4},${neckH * 0.5} ${-tW * 0.4},${neckH}`);
+          path.push(`l 0,${lineLen}`);
+        }
+
+        // ---- BOTTOM edge: travels left ----
+        if (bottom === 0) {
+          path.push(`l ${-w},0`);
+        } else {
+          const sign = bottom === 1 ? 1 : -1;        // +1 = knob out (down), -1 = socket in (up)
+          const tH = h * 0.22 * sign;
+          const lineLen = w * 0.36;
+          const neckW = w * 0.08;
+          const bulbW = w * 0.12;
+          path.push(`l ${-lineLen},0`);
+          path.push(`c ${-neckW * 0.5},0 ${-neckW},${tH * 0.2} ${-neckW},${tH * 0.4}`);
+          path.push(`c 0,${tH * 0.5} ${-bulbW * 2},${tH * 0.5} ${-bulbW * 2},0`);
+          path.push(`c 0,${-tH * 0.2} ${-neckW * 0.5},${-tH * 0.4} ${-neckW},${-tH * 0.4}`);
+          path.push(`l ${-lineLen},0`);
+        }
+
+        // ---- LEFT edge: travels up ----
+        if (left === 0) {
+          path.push(`l 0,${-h}`);
+        } else {
+          const sign = left === 1 ? -1 : 1;          // -1 = knob out (left), +1 = socket in (right)
+          const tW = w * 0.22 * sign;
+          const lineLen = h * 0.36;
+          const neckH = h * 0.08;
+          const bulbH = h * 0.12;
+          path.push(`l 0,${-lineLen}`);
+          path.push(`c 0,${-neckH * 0.5} ${tW * 0.2},${-neckH} ${tW * 0.4},${-neckH}`);
+          path.push(`c ${tW * 0.5},0 ${tW * 0.5},${-bulbH * 2} 0,${-bulbH * 2}`);
+          path.push(`c ${-tW * 0.2},0 ${-tW * 0.4},${-neckH * 0.5} ${-tW * 0.4},${-neckH}`);
+          path.push(`l 0,${-lineLen}`);
+        }
+
+        path.push('Z');
+        return path.join(' ');
       };
 
       pieces.push({

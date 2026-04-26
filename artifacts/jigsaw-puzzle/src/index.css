@@ -118,57 +118,10 @@
   }
 }
 
-/* --- Game play area atmosphere --- */
+/* --- Game play area: clean professional single-color stage --- */
 .play-stage {
-  background-color: #1f1d2b;
-  background-image:
-    radial-gradient(1200px 700px at 50% 35%, rgba(255, 230, 190, 0.18), transparent 70%),
-    radial-gradient(900px 600px at 15% 85%, rgba(120, 200, 255, 0.10), transparent 70%),
-    radial-gradient(900px 600px at 85% 15%, rgba(255, 170, 200, 0.10), transparent 70%),
-    linear-gradient(180deg, #221f30 0%, #181626 60%, #14121f 100%);
+  background-color: #1e293b; /* slate-800: deep professional charcoal */
 }
-
-.play-stage::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.4 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
-  opacity: 0.05;
-  mix-blend-mode: overlay;
-}
-
-.play-stage::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(ellipse at center, transparent 45%, rgba(0, 0, 0, 0.45) 100%);
-}
-
-@keyframes float-orb-a {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50%      { transform: translate(40px, -30px) scale(1.08); }
-}
-@keyframes float-orb-b {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50%      { transform: translate(-50px, 25px) scale(0.95); }
-}
-@keyframes float-orb-c {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50%      { transform: translate(30px, 40px) scale(1.05); }
-}
-
-.orb {
-  position: absolute;
-  border-radius: 9999px;
-  filter: blur(70px);
-  pointer-events: none;
-  opacity: 0.55;
-}
-.orb-a { animation: float-orb-a 14s ease-in-out infinite; }
-.orb-b { animation: float-orb-b 18s ease-in-out infinite; }
-.orb-c { animation: float-orb-c 16s ease-in-out infinite; }
 
 /* Glass styling for controls bar */
 .glass-bar {
