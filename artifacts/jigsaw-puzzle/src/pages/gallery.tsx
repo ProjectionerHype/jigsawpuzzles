@@ -1,16 +1,30 @@
 import { useEffect, useState } from "react";
-import { Link } from "wouter";
+import { Link, useSearch } from "wouter";
 import { motion } from "framer-motion";
 import { PUZZLE_IMAGES, Category, DIFFICULTIES } from "@/lib/images";
 
+const CATEGORIES: (Category | "All")[] = ["All", "Nature", "Animals", "Cities", "Art", "Space"];
+
+function readCategoryFromQuery(search: string): Category | "All" {
+  const params = new URLSearchParams(search);
+  const raw = (params.get("category") ?? "").toLowerCase();
+  const match = CATEGORIES.find((c) => c.toLowerCase() === raw);
+  return match ?? "All";
+}
+
 export default function Gallery() {
-  const [activeCategory, setActiveCategory] = useState<Category | "All">("All");
+  const search = useSearch();
+  const [activeCategory, setActiveCategory] = useState<Category | "All">(() => readCategoryFromQuery(search));
 
   useEffect(() => {
     document.title = "Free Online Jigsaw Puzzle Game";
   }, []);
 
-  const categories: (Category | "All")[] = ["All", "Nature", "Animals", "Cities", "Art", "Space"];
+  useEffect(() => {
+    setActiveCategory(readCategoryFromQuery(search));
+  }, [search]);
+
+  const categories = CATEGORIES;
 
   const filteredImages = activeCategory === "All" 
     ? PUZZLE_IMAGES 

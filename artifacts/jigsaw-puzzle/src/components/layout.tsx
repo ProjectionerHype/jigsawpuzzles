@@ -91,28 +91,25 @@ export function Footer() {
             </p>
           </div>
           <div>
-            <h3 className="font-serif font-semibold text-foreground mb-4">Explore</h3>
+            <h3 className="font-serif font-semibold text-foreground mb-4">Categories</h3>
             <ul className="space-y-2">
-              <li><Link href="/gallery" className="text-muted-foreground hover:text-primary text-sm transition-colors">Puzzle Gallery</Link></li>
-              <li><Link href="/gallery?category=nature" className="text-muted-foreground hover:text-primary text-sm transition-colors">Nature Puzzles</Link></li>
-              <li><Link href="/gallery?category=art" className="text-muted-foreground hover:text-primary text-sm transition-colors">Art Puzzles</Link></li>
+              <li><Link href="/?category=nature" className="text-muted-foreground hover:text-primary text-sm transition-colors">Nature</Link></li>
+              <li><Link href="/?category=animals" className="text-muted-foreground hover:text-primary text-sm transition-colors">Animals</Link></li>
+              <li><Link href="/?category=cities" className="text-muted-foreground hover:text-primary text-sm transition-colors">Cities</Link></li>
+              <li><Link href="/?category=art" className="text-muted-foreground hover:text-primary text-sm transition-colors">Art</Link></li>
+              <li><Link href="/?category=space" className="text-muted-foreground hover:text-primary text-sm transition-colors">Space</Link></li>
             </ul>
           </div>
           <div>
             <h3 className="font-serif font-semibold text-foreground mb-4">Learn</h3>
             <ul className="space-y-2">
+              <li><Link href="/" className="text-muted-foreground hover:text-primary text-sm transition-colors">All Puzzles</Link></li>
               <li><Link href="/how-to-play" className="text-muted-foreground hover:text-primary text-sm transition-colors">How to Play</Link></li>
-              <li><Link href="/how-to-play#benefits" className="text-muted-foreground hover:text-primary text-sm transition-colors">Benefits of Puzzles</Link></li>
-              <li><Link href="/#faq" className="text-muted-foreground hover:text-primary text-sm transition-colors">FAQ</Link></li>
             </ul>
           </div>
         </div>
-        <div className="border-t border-border mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted-foreground">
+        <div className="border-t border-border mt-12 pt-8 text-center text-xs text-muted-foreground">
           <p>&copy; {new Date().getFullYear()} jigsaw-puzzle.fun — All rights reserved.</p>
-          <div className="flex gap-4">
-            <Link href="/how-to-play" className="hover:text-primary transition-colors">Privacy Policy</Link>
-            <Link href="/how-to-play" className="hover:text-primary transition-colors">Terms of Service</Link>
-          </div>
         </div>
       </div>
     </footer>
