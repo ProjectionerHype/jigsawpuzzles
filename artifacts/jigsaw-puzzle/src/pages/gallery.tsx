@@ -7,7 +7,7 @@ export default function Gallery() {
   const [activeCategory, setActiveCategory] = useState<Category | "All">("All");
 
   useEffect(() => {
-    document.title = "Puzzle Gallery - Jigscape";
+    document.title = "Puzzle Gallery - Free Online Jigsaw Puzzle Game";
   }, []);
 
   const categories: (Category | "All")[] = ["All", "Nature", "Animals", "Cities", "Art", "Space"];

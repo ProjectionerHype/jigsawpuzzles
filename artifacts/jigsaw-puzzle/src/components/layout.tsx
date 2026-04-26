@@ -1,21 +1,37 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 
-function LogoMark({ size = 32 }: { size?: number }) {
+export function LogoMark({ size = 32 }: { size?: number }) {
   return (
     <svg
       width={size}
       height={size}
-      viewBox="0 0 180 180"
+      viewBox="0 0 200 200"
       xmlns="http://www.w3.org/2000/svg"
-      className="rounded-md group-hover:rotate-12 transition-transform"
+      className="rounded-md group-hover:rotate-6 transition-transform shrink-0"
       aria-hidden="true"
     >
-      <rect width="180" height="180" rx="36" fill="hsl(var(--primary))" />
-      <g transform="translate(90 90)" fill="hsl(var(--primary-foreground))">
-        <path d="M -42 -22 L -16 -22 C -16 -34, 16 -34, 16 -22 L 42 -22 L 42 -8 C 30 -8, 30 18, 42 18 L 42 42 L 16 42 C 16 30, -16 30, -16 42 L -42 42 L -42 18 C -54 18, -54 -10, -42 -10 Z" />
+      <defs>
+        <clipPath id="logo-rounded">
+          <rect width="200" height="200" rx="44" />
+        </clipPath>
+      </defs>
+      <g clipPath="url(#logo-rounded)">
+        <path fill="#E66B4F" d="M 0 0 l 100 0 l 0 30 c 0 4 4.4 8 8.8 8 c 11 0 11 24 0 24 c -4.4 0 -8.8 4 -8.8 8 l 0 30 l -30 0 c -4 0 -8 4.4 -8 8.8 c 0 11 -24 11 -24 0 c 0 -4.4 -4 -8.8 -8 -8.8 l -30 0 l 0 -100 Z" />
+        <path fill="#1F5C4D" d="M 100 0 l 100 0 l 0 100 l -30 0 c -4 0 -8 4.4 -8 8.8 c 0 11 -24 11 -24 0 c 0 -4.4 -4 -8.8 -8 -8.8 l -30 0 l 0 -30 c 0 -4 4.4 -8 8.8 -8 c 11 0 11 -24 0 -24 c -4.4 0 -8.8 -4 -8.8 -8 l 0 -30 Z" />
+        <path fill="#E8B547" d="M 0 100 l 30 0 c 4 0 8 4.4 8 8.8 c 0 11 24 11 24 0 c 0 -4.4 4 -8.8 8 -8.8 l 30 0 l 0 30 c 0 4 4.4 8 8.8 8 c 11 0 11 24 0 24 c -4.4 0 -8.8 4 -8.8 8 l 0 30 l -100 0 l 0 -100 Z" />
+        <path fill="#3A5A7A" d="M 100 100 l 30 0 c 4 0 8 4.4 8 8.8 c 0 11 24 11 24 0 c 0 -4.4 4 -8.8 8 -8.8 l 30 0 l 0 100 l -100 0 l 0 -30 c 0 -4 4.4 -8 8.8 -8 c 11 0 11 -24 0 -24 c -4.4 0 -8.8 -4 -8.8 -8 l 0 -30 Z" />
       </g>
     </svg>
+  );
+}
+
+export function Wordmark({ className = "" }: { className?: string }) {
+  return (
+    <span className={`font-sans font-extrabold tracking-tight text-foreground ${className}`}>
+      <span>jigsaw-puzzle</span>
+      <span className="text-accent">.fun</span>
+    </span>
   );
 }
 
@@ -36,9 +52,9 @@ export function Header() {
       }`}
     >
       <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 group">
-          <LogoMark size={32} />
-          <span className="font-serif font-bold text-2xl tracking-tight text-foreground">Jigscape</span>
+        <Link href="/" className="flex items-center gap-2.5 group">
+          <LogoMark size={36} />
+          <Wordmark className="text-xl md:text-2xl" />
         </Link>
 
         <nav className="hidden md:flex items-center gap-8">
@@ -67,11 +83,11 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-2">
             <Link href="/" className="flex items-center gap-2 justify-center md:justify-start mb-4 group">
-              <LogoMark size={24} />
-              <span className="font-serif font-bold text-xl tracking-tight text-foreground">Jigscape</span>
+              <LogoMark size={28} />
+              <Wordmark className="text-lg" />
             </Link>
             <p className="text-muted-foreground text-sm max-w-md mx-auto md:mx-0">
-              A premium, calming online jigsaw puzzle experience. Unwind, focus, and enjoy the tactile satisfaction of a real puzzle on your screen.
+              A free online jigsaw puzzle game. Beautiful images, satisfying snap mechanics, no ads, no signup — just play.
             </p>
           </div>
           <div>
@@ -92,7 +108,7 @@ export function Footer() {
           </div>
         </div>
         <div className="border-t border-border mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} Jigscape. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} jigsaw-puzzle.fun — All rights reserved.</p>
           <div className="flex gap-4">
             <Link href="/how-to-play" className="hover:text-primary transition-colors">Privacy Policy</Link>
             <Link href="/how-to-play" className="hover:text-primary transition-colors">Terms of Service</Link>

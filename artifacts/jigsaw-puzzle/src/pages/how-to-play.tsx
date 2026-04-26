@@ -3,7 +3,7 @@ import { Link } from "wouter";
 
 export default function HowToPlay() {
   useEffect(() => {
-    document.title = "How to Play Jigsaw Puzzles - Tips & Benefits - Jigscape";
+    document.title = "How to Play - Free Online Jigsaw Puzzle Game";
   }, []);
 
   return (

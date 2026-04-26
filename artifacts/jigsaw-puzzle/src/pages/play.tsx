@@ -65,7 +65,7 @@ export default function PlayPage() {
 
   // Init puzzle
   useEffect(() => {
-    document.title = `${image.title} - Jigscape`;
+    document.title = `${image.title} - Free Online Jigsaw Puzzle Game`;
     
     // Determine board size based on screen
     const updateSize = () => {
