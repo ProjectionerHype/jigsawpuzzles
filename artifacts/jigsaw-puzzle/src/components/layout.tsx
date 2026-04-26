@@ -1,6 +1,24 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 
+function LogoMark({ size = 32 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 180 180"
+      xmlns="http://www.w3.org/2000/svg"
+      className="rounded-md group-hover:rotate-12 transition-transform"
+      aria-hidden="true"
+    >
+      <rect width="180" height="180" rx="36" fill="hsl(var(--primary))" />
+      <g transform="translate(90 90)" fill="hsl(var(--primary-foreground))">
+        <path d="M -42 -22 L -16 -22 C -16 -34, 16 -34, 16 -22 L 42 -22 L 42 -8 C 30 -8, 30 18, 42 18 L 42 42 L 16 42 C 16 30, -16 30, -16 42 L -42 42 L -42 18 C -54 18, -54 -10, -42 -10 Z" />
+      </g>
+    </svg>
+  );
+}
+
 export function Header() {
   const [location] = useLocation();
   const [scrolled, setScrolled] = useState(false);
@@ -19,9 +37,7 @@ export function Header() {
     >
       <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-8 h-8 rounded bg-primary text-primary-foreground flex items-center justify-center font-serif font-bold text-xl group-hover:rotate-12 transition-transform">
-            J
-          </div>
+          <LogoMark size={32} />
           <span className="font-serif font-bold text-2xl tracking-tight text-foreground">Jigscape</span>
         </Link>
 
@@ -50,10 +66,8 @@ export function Footer() {
       <div className="container mx-auto px-4 md:px-6 text-center md:text-left">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-2">
-            <Link href="/" className="flex items-center gap-2 justify-center md:justify-start mb-4">
-              <div className="w-6 h-6 rounded bg-primary text-primary-foreground flex items-center justify-center font-serif font-bold text-sm">
-                J
-              </div>
+            <Link href="/" className="flex items-center gap-2 justify-center md:justify-start mb-4 group">
+              <LogoMark size={24} />
               <span className="font-serif font-bold text-xl tracking-tight text-foreground">Jigscape</span>
             </Link>
             <p className="text-muted-foreground text-sm max-w-md mx-auto md:mx-0">
