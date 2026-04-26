@@ -74,12 +74,14 @@ export default function PlayPage() {
       setContainerSize({ w: Math.floor(rect.width), h: Math.floor(rect.height) });
 
       const targetAspect = 4 / 3;
-      // Reserve generous tray margin around the board so all pieces stay visible
+      // Use most of the available space for the board; pieces will scatter in
+      // the surrounding margin (or overlap the board on tight screens).
       const isMobile = rect.width < 768;
-      const trayMargin = isMobile ? 80 : 160;
+      const sideMargin = isMobile ? 24 : 60;
+      const vertMargin = isMobile ? 24 : 50;
 
-      const availW = Math.max(200, rect.width - trayMargin * 2);
-      const availH = Math.max(200, rect.height - trayMargin * 2);
+      const availW = Math.max(200, rect.width - sideMargin * 2);
+      const availH = Math.max(200, rect.height - vertMargin * 2);
 
       let w = availW;
       let h = w / targetAspect;
@@ -111,15 +113,20 @@ export default function PlayPage() {
     const topMargin = (containerSize.h - boardSize.h) / 2;
     const bottomMargin = topMargin;
 
-    const safe = 8; // safety inset from edges
-    const gap = 16; // gap from board edge
+    const safe = 6; // safety inset from edges
+    const gap = 8;  // gap from board edge when off-board scatter is possible
+
+    // Visible bounds in board-relative coordinates
+    const minX = -leftMargin + safe;
+    const maxX = boardSize.w + rightMargin - pieceW - safe;
+    const minY = -topMargin + safe;
+    const maxY = boardSize.h + bottomMargin - pieceH - safe;
 
     type Zone = { name: 'left' | 'right' | 'top' | 'bottom'; capacity: number };
     const zones: Zone[] = [];
 
-    // Estimate each zone's capacity based on how many pieces can fit (loosely)
     const zoneCap = (zoneW: number, zoneH: number) =>
-      Math.max(1, Math.floor((zoneW * zoneH) / (pieceW * pieceH * 1.6)));
+      Math.max(1, Math.floor((zoneW * zoneH) / (pieceW * pieceH * 1.4)));
 
     if (leftMargin > pieceW + gap + safe) {
       zones.push({ name: 'left', capacity: zoneCap(leftMargin - gap - safe, containerSize.h - safe * 2) });
@@ -134,13 +141,7 @@ export default function PlayPage() {
       zones.push({ name: 'bottom', capacity: zoneCap(containerSize.w - safe * 2, bottomMargin - gap - safe) });
     }
 
-    // Fallback: if no zone fits (very small screen), allow scatter on the board
-    if (zones.length === 0) {
-      zones.push({ name: 'right', capacity: difficulty.pieces });
-    }
-
-    // Build a flat list of slots, weighted by capacity, then shuffle so
-    // pieces don't clump in the first zone in iteration order.
+    // Build a flat list of slots, weighted by capacity, then shuffle.
     const slots: Zone['name'][] = [];
     zones.forEach(z => { for (let i = 0; i < z.capacity; i++) slots.push(z.name); });
     for (let i = slots.length - 1; i > 0; i--) {
@@ -152,30 +153,35 @@ export default function PlayPage() {
     for (let r = 0; r < difficulty.rows; r++) {
       for (let c = 0; c < difficulty.cols; c++) allCells.push({ r, c });
     }
-    // Shuffle cells so layout doesn't form rows
     for (let i = allCells.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [allCells[i], allCells[j]] = [allCells[j], allCells[i]];
     }
 
+    const rand = (min: number, max: number) => min + Math.random() * Math.max(0, max - min);
+
     const initialPieces: PuzzleStatePiece[] = allCells.map((cell, idx) => {
-      const zoneName = slots[idx % slots.length];
-
       let x = 0, y = 0;
-      const rand = (min: number, max: number) => min + Math.random() * Math.max(0, max - min);
 
-      if (zoneName === 'left') {
-        x = rand(-leftMargin + safe, -pieceW - gap);
-        y = rand(-topMargin + safe, boardSize.h + bottomMargin - pieceH - safe);
-      } else if (zoneName === 'right') {
-        x = rand(boardSize.w + gap, boardSize.w + rightMargin - pieceW - safe);
-        y = rand(-topMargin + safe, boardSize.h + bottomMargin - pieceH - safe);
-      } else if (zoneName === 'top') {
-        x = rand(-leftMargin + safe, boardSize.w + rightMargin - pieceW - safe);
-        y = rand(-topMargin + safe, -pieceH - gap);
-      } else { // bottom
-        x = rand(-leftMargin + safe, boardSize.w + rightMargin - pieceW - safe);
-        y = rand(boardSize.h + gap, boardSize.h + bottomMargin - pieceH - safe);
+      if (slots.length > 0) {
+        const zoneName = slots[idx % slots.length];
+        if (zoneName === 'left') {
+          x = rand(minX, -pieceW - gap);
+          y = rand(minY, maxY);
+        } else if (zoneName === 'right') {
+          x = rand(boardSize.w + gap, maxX);
+          y = rand(minY, maxY);
+        } else if (zoneName === 'top') {
+          x = rand(minX, maxX);
+          y = rand(minY, -pieceH - gap);
+        } else { // bottom
+          x = rand(minX, maxX);
+          y = rand(boardSize.h + gap, maxY);
+        }
+      } else {
+        // No off-board zone fits — scatter anywhere visible (may overlap board)
+        x = rand(minX, maxX);
+        y = rand(minY, maxY);
       }
 
       return {
@@ -351,34 +357,41 @@ export default function PlayPage() {
     const pH = boardSize.h / difficulty.rows;
     const lm = (containerSize.w - boardSize.w) / 2;
     const tm = (containerSize.h - boardSize.h) / 2;
-    const safe = 8, gap = 16;
+    const safe = 6, gap = 8;
+
+    const minX = -lm + safe;
+    const maxX = boardSize.w + lm - pW - safe;
+    const minY = -tm + safe;
+    const maxY = boardSize.h + tm - pH - safe;
 
     type ZName = 'left' | 'right' | 'top' | 'bottom';
     const allowed: ZName[] = [];
-    if (lm > pW + gap + safe) allowed.push('left');
-    if (lm > pW + gap + safe) allowed.push('right');
-    if (tm > pH + gap + safe) allowed.push('top');
-    if (tm > pH + gap + safe) allowed.push('bottom');
-    if (allowed.length === 0) allowed.push('right');
+    if (lm > pW + gap + safe) { allowed.push('left'); allowed.push('right'); }
+    if (tm > pH + gap + safe) { allowed.push('top'); allowed.push('bottom'); }
 
     const rand = (min: number, max: number) => min + Math.random() * Math.max(0, max - min);
 
     setPieces(prev => prev.map(p => {
       if (p.isLocked) return p;
-      const zone = allowed[Math.floor(Math.random() * allowed.length)];
       let x = 0, y = 0;
-      if (zone === 'left') {
-        x = rand(-lm + safe, -pW - gap);
-        y = rand(-tm + safe, boardSize.h + tm - pH - safe);
-      } else if (zone === 'right') {
-        x = rand(boardSize.w + gap, boardSize.w + lm - pW - safe);
-        y = rand(-tm + safe, boardSize.h + tm - pH - safe);
-      } else if (zone === 'top') {
-        x = rand(-lm + safe, boardSize.w + lm - pW - safe);
-        y = rand(-tm + safe, -pH - gap);
+      if (allowed.length === 0) {
+        x = rand(minX, maxX);
+        y = rand(minY, maxY);
       } else {
-        x = rand(-lm + safe, boardSize.w + lm - pW - safe);
-        y = rand(boardSize.h + gap, boardSize.h + tm - pH - safe);
+        const zone = allowed[Math.floor(Math.random() * allowed.length)];
+        if (zone === 'left') {
+          x = rand(minX, -pW - gap);
+          y = rand(minY, maxY);
+        } else if (zone === 'right') {
+          x = rand(boardSize.w + gap, maxX);
+          y = rand(minY, maxY);
+        } else if (zone === 'top') {
+          x = rand(minX, maxX);
+          y = rand(minY, -pH - gap);
+        } else {
+          x = rand(minX, maxX);
+          y = rand(boardSize.h + gap, maxY);
+        }
       }
       return { ...p, x, y };
     }));
