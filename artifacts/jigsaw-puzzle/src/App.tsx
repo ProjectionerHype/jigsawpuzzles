@@ -34,7 +34,7 @@ function Shell() {
         <Switch>
           <Route path="/" component={Gallery} />
           <Route path="/gallery" component={Gallery} />
-          <Route path="/daily" component={Daily} />
+          <Route path="/Daily-Jigsaw-Puzzle" component={Daily} />
           <Route path="/how-to-play" component={HowToPlay} />
           <Route component={NotFound} />
         </Switch>

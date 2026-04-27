@@ -61,7 +61,7 @@ export function Header() {
           <Link href="/" className={`text-sm font-medium transition-colors hover:text-primary ${location === "/" || location === "/gallery" ? "text-primary" : "text-muted-foreground"}`}>
             Play
           </Link>
-          <Link href="/daily" className={`text-sm font-medium transition-colors hover:text-primary ${location === "/daily" ? "text-primary" : "text-muted-foreground"}`}>
+          <Link href="/Daily-Jigsaw-Puzzle" className={`text-sm font-medium transition-colors hover:text-primary ${location === "/Daily-Jigsaw-Puzzle" ? "text-primary" : "text-muted-foreground"}`}>
             Daily Puzzle
           </Link>
           <Link href="/how-to-play" className={`text-sm font-medium transition-colors hover:text-primary ${location === "/how-to-play" ? "text-primary" : "text-muted-foreground"}`}>
@@ -107,7 +107,7 @@ export function Footer() {
             <h3 className="font-serif font-semibold text-foreground mb-4">Learn</h3>
             <ul className="space-y-2">
               <li><Link href="/" className="text-muted-foreground hover:text-primary text-sm transition-colors">All Puzzles</Link></li>
-              <li><Link href="/daily" className="text-muted-foreground hover:text-primary text-sm transition-colors">Daily Puzzle</Link></li>
+              <li><Link href="/Daily-Jigsaw-Puzzle" className="text-muted-foreground hover:text-primary text-sm transition-colors">Daily Puzzle</Link></li>
               <li><Link href="/how-to-play" className="text-muted-foreground hover:text-primary text-sm transition-colors">How to Play</Link></li>
             </ul>
           </div>
