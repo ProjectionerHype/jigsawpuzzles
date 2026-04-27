@@ -5,6 +5,7 @@ import { Play, Pause, RotateCcw, Shuffle, Eye, Lightbulb, CheckCircle2 } from "l
 import { PUZZLE_IMAGES, DIFFICULTIES } from "@/lib/images";
 import { generatePuzzleShapes } from "@/lib/puzzle-generator";
 import { playSnapSound } from "@/lib/audio";
+import { markDayCompleted } from "@/lib/daily-progress";
 
 interface PuzzleStatePiece {
   id: string;
@@ -28,6 +29,7 @@ export default function PlayPage() {
   const searchParams = new URLSearchParams(searchString);
   const imageId = searchParams.get("image") || "mountains";
   const piecesParam = parseInt(searchParams.get("pieces") || "24", 10);
+  const isDailyRun = searchParams.get("daily") === "1";
   
   const image = PUZZLE_IMAGES.find(img => img.id === imageId) || PUZZLE_IMAGES[0];
   const difficulty = DIFFICULTIES.find(d => d.pieces === piecesParam) || DIFFICULTIES[1];
@@ -350,6 +352,10 @@ export default function PlayPage() {
         const best = localStorage.getItem(key);
         if (!best || time < parseInt(best, 10)) {
           localStorage.setItem(key, time.toString());
+        }
+        // Mark today's daily puzzle as completed
+        if (isDailyRun) {
+          markDayCompleted();
         }
       }
 
