@@ -6,6 +6,7 @@ import NotFound from "@/pages/not-found";
 import Gallery from "@/pages/gallery";
 import Play from "@/pages/play";
 import HowToPlay from "@/pages/how-to-play";
+import Daily from "@/pages/daily";
 import { Header, Footer } from "@/components/layout";
 
 const queryClient = new QueryClient();
@@ -33,6 +34,7 @@ function Shell() {
         <Switch>
           <Route path="/" component={Gallery} />
           <Route path="/gallery" component={Gallery} />
+          <Route path="/daily" component={Daily} />
           <Route path="/how-to-play" component={HowToPlay} />
           <Route component={NotFound} />
         </Switch>
