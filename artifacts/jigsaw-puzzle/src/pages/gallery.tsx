@@ -3,7 +3,7 @@ import { Link, useSearch } from "wouter";
 import { motion } from "framer-motion";
 import { PUZZLE_IMAGES, Category, DIFFICULTIES } from "@/lib/images";
 
-const CATEGORIES: (Category | "All")[] = ["All", "Nature", "Animals", "Cities", "Art", "Space"];
+const CATEGORIES: (Category | "All")[] = ["All", "Nature", "Animals", "Cities", "Art", "Space", "Surprise"];
 
 function readCategoryFromQuery(search: string): Category | "All" {
   const params = new URLSearchParams(search);

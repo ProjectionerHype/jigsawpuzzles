@@ -1,4 +1,4 @@
-export type Category = "Nature" | "Animals" | "Cities" | "Art" | "Space";
+export type Category = "Nature" | "Animals" | "Cities" | "Art" | "Space" | "Surprise";
 
 export interface PuzzleImage {
   id: string;
@@ -76,6 +76,18 @@ export const PUZZLE_IMAGES: PuzzleImage[] = [
   { id: "nebula", title: "Cosmic Nebula", category: "Space", url: u("1419242902214-272b3f66ee7a"), description: "A glowing nebula drifting through deep space." },
   { id: "earth", title: "Earth from Orbit", category: "Space", url: u("1446776877081-d282a0f896e2"), description: "Our blue planet seen from low orbit." },
   { id: "saturn", title: "Saturn's Rings", category: "Space", url: u("1614314107768-6018061b5b72"), description: "Saturn glowing softly with its iconic rings." },
+
+  // ---------- Surprise (mystery picks from a public photo CDN) ----------
+  ...Array.from({ length: 100 }, (_, i): PuzzleImage => {
+    const n = i + 1;
+    return {
+      id: `surprise-${n}`,
+      title: `Mystery Puzzle #${n}`,
+      category: "Surprise",
+      url: `https://picsum.photos/seed/jpf-${n}/900/900`,
+      description: "A mystery picture — discover what it is as you solve the puzzle!",
+    };
+  }),
 ];
 
 export const DIFFICULTIES = [
