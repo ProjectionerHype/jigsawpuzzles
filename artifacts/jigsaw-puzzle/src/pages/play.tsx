@@ -1,11 +1,11 @@
 import { useEffect, useState, useRef, useMemo } from "react";
 import { useLocation, useSearch, Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, Pause, RotateCcw, Shuffle, Eye, Lightbulb, CheckCircle2 } from "lucide-react";
+import { Play, Pause, RotateCcw, Shuffle, Eye, Lightbulb, CheckCircle2, Share2 } from "lucide-react";
 import { PUZZLE_IMAGES, DIFFICULTIES } from "@/lib/images";
 import { generatePuzzleShapes } from "@/lib/puzzle-generator";
 import { playSnapSound } from "@/lib/audio";
-import { markDayCompleted } from "@/lib/daily-progress";
+import { markDayCompleted, getCurrentStreak, buildShareText, shareOrCopy } from "@/lib/daily-progress";
 
 interface PuzzleStatePiece {
   id: string;
@@ -44,6 +44,7 @@ export default function PlayPage() {
   const [isSolved, setIsSolved] = useState(false);
   const [hintsLeft, setHintsLeft] = useState(3);
   const [hintPieceId, setHintPieceId] = useState<string | null>(null);
+  const [shareLabel, setShareLabel] = useState<string>("Share Result");
 
   const containerRef = useRef<HTMLDivElement>(null);
   const boardRef = useRef<HTMLDivElement>(null);
@@ -637,6 +638,27 @@ export default function PlayPage() {
               </div>
               
               <div className="flex flex-col gap-3">
+                {isDailyRun && (
+                  <button
+                    onClick={async () => {
+                      const text = buildShareText({
+                        puzzleTitle: image.title,
+                        difficultyName: difficulty.name,
+                        timeSeconds: time,
+                        streak: getCurrentStreak(),
+                      });
+                      const result = await shareOrCopy(text);
+                      if (result === "copied") setShareLabel("Copied!");
+                      else if (result === "shared") setShareLabel("Shared!");
+                      else setShareLabel("Could not share");
+                      setTimeout(() => setShareLabel("Share Result"), 2000);
+                    }}
+                    className="w-full bg-accent text-accent-foreground py-3 rounded-xl font-medium hover:bg-accent/90 transition-colors flex items-center justify-center gap-2"
+                  >
+                    <Share2 size={18} />
+                    {shareLabel}
+                  </button>
+                )}
                 <button 
                   onClick={() => window.location.reload()}
                   className="w-full bg-primary text-primary-foreground py-3 rounded-xl font-medium hover:bg-primary/90 transition-colors"
@@ -644,10 +666,10 @@ export default function PlayPage() {
                   Play Again
                 </button>
                 <Link 
-                  href="/gallery"
+                  href={isDailyRun ? "/Daily-Jigsaw-Puzzle" : "/gallery"}
                   className="w-full bg-background border border-border text-foreground py-3 rounded-xl font-medium hover:bg-secondary transition-colors block"
                 >
-                  Pick New Puzzle
+                  {isDailyRun ? "Back to Daily" : "Pick New Puzzle"}
                 </Link>
               </div>
             </motion.div>

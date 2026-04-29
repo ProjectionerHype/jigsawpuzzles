@@ -1,13 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
-import { CheckCircle2, Flame } from "lucide-react";
+import { CheckCircle2, Flame, Share2 } from "lucide-react";
 import { PUZZLE_IMAGES, DIFFICULTIES } from "@/lib/images";
 import {
   getCurrentStreak,
   getRecentDays,
   isDayCompleted,
   todayKey,
+  buildShareText,
+  shareOrCopy,
 } from "@/lib/daily-progress";
 
 function getUtcDayIndex(d: Date): number {
@@ -38,6 +40,7 @@ export default function Daily() {
   const [now, setNow] = useState<Date>(() => new Date());
   // progressTick is bumped on focus / mount so localStorage changes show up
   const [progressTick, setProgressTick] = useState(0);
+  const [shareLabel, setShareLabel] = useState<string>("Share Result");
 
   useEffect(() => {
     document.title = "Daily Jigsaw Puzzle — jigsaw-puzzle.fun";
@@ -236,6 +239,27 @@ export default function Daily() {
                 </Link>
               ))}
             </div>
+            {completedToday && (
+              <button
+                onClick={async () => {
+                  const text = buildShareText({
+                    puzzleTitle: puzzle.title,
+                    difficultyName: "Daily",
+                    streak,
+                    now,
+                  });
+                  const result = await shareOrCopy(text);
+                  if (result === "copied") setShareLabel("Copied!");
+                  else if (result === "shared") setShareLabel("Shared!");
+                  else setShareLabel("Could not share");
+                  setTimeout(() => setShareLabel("Share Result"), 2000);
+                }}
+                className="mt-4 w-full bg-accent text-accent-foreground py-3 rounded-xl font-medium hover:bg-accent/90 transition-colors flex items-center justify-center gap-2"
+              >
+                <Share2 size={18} />
+                {shareLabel}
+              </button>
+            )}
           </div>
         </div>
       </motion.div>

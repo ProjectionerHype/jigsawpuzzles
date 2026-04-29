@@ -81,6 +81,57 @@ export interface RecentDay {
   isToday: boolean;
 }
 
+export interface ShareTextOptions {
+  puzzleTitle: string;
+  difficultyName: string;
+  timeSeconds?: number;
+  streak: number;
+  now?: Date;
+  siteUrl?: string;
+}
+
+function formatTime(seconds: number): string {
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+}
+
+export function buildShareText(opts: ShareTextOptions): string {
+  const now = opts.now ?? new Date();
+  const dateLabel = now.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  const lines: string[] = [];
+  lines.push(`🧩 jigsaw-puzzle.fun Daily — ${dateLabel}`);
+  lines.push(`${opts.puzzleTitle} · ${opts.difficultyName}`);
+  if (typeof opts.timeSeconds === "number") {
+    lines.push(`⏱ ${formatTime(opts.timeSeconds)}`);
+  }
+  if (opts.streak > 0) {
+    lines.push(`🔥 Streak: ${opts.streak} day${opts.streak === 1 ? "" : "s"}`);
+  }
+  lines.push(opts.siteUrl ?? "https://jigsaw-puzzle.fun/Daily-Jigsaw-Puzzle");
+  return lines.join("\n");
+}
+
+export async function shareOrCopy(text: string, title = "Daily Jigsaw Puzzle"): Promise<"shared" | "copied" | "failed"> {
+  if (typeof navigator !== "undefined" && typeof navigator.share === "function") {
+    try {
+      await navigator.share({ title, text });
+      return "shared";
+    } catch {
+      // user cancelled or share failed — fall through to clipboard
+    }
+  }
+  if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return "copied";
+    } catch {
+      return "failed";
+    }
+  }
+  return "failed";
+}
+
 export function getRecentDays(count: number, now: Date = new Date()): RecentDay[] {
   const days = getCompletedDays();
   const todayIdx = getUtcDayIndex(now);
