@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link, useSearch } from "wouter";
 import { motion } from "framer-motion";
+import { Trophy } from "lucide-react";
 import { PUZZLE_IMAGES, Category, DIFFICULTIES } from "@/lib/images";
+import { getBestTime, formatBestTime } from "@/lib/best-times";
 
 const CATEGORIES: (Category | "All")[] = ["All", "Nature", "Animals", "Cities", "Art", "Space", "Surprise"];
 
@@ -15,6 +17,7 @@ function readCategoryFromQuery(search: string): Category | "All" {
 export default function Gallery() {
   const search = useSearch();
   const [activeCategory, setActiveCategory] = useState<Category | "All">(() => readCategoryFromQuery(search));
+  const [bestTick, setBestTick] = useState(0);
 
   useEffect(() => {
     document.title = "Free Online Jigsaw Puzzle Game";
@@ -23,6 +26,16 @@ export default function Gallery() {
   useEffect(() => {
     setActiveCategory(readCategoryFromQuery(search));
   }, [search]);
+
+  useEffect(() => {
+    const refresh = () => setBestTick((t) => t + 1);
+    window.addEventListener("focus", refresh);
+    window.addEventListener("storage", refresh);
+    return () => {
+      window.removeEventListener("focus", refresh);
+      window.removeEventListener("storage", refresh);
+    };
+  }, []);
 
   const categories = CATEGORIES;
 
@@ -85,16 +98,30 @@ export default function Gallery() {
               </div>
               <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{img.description}</p>
               
-              <div className="mt-auto pt-4 border-t border-border flex flex-wrap gap-2">
-                {DIFFICULTIES.map(diff => (
-                  <Link 
-                    key={diff.id} 
-                    href={`/play?image=${img.id}&pieces=${diff.pieces}`}
-                    className="text-xs px-3 py-1.5 rounded-md bg-secondary/50 text-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
-                  >
-                    {diff.name}
-                  </Link>
-                ))}
+              <div className="mt-auto pt-4 border-t border-border grid grid-cols-4 gap-1.5">
+                {DIFFICULTIES.map(diff => {
+                  void bestTick;
+                  const best = getBestTime(img.id, diff.pieces);
+                  return (
+                    <Link
+                      key={diff.id}
+                      href={`/play?image=${img.id}&pieces=${diff.pieces}`}
+                      className="group/diff flex flex-col items-center gap-0.5 px-1.5 py-1.5 rounded-md bg-secondary/50 text-foreground hover:bg-primary hover:text-primary-foreground transition-colors text-center"
+                    >
+                      <span className="text-xs font-semibold leading-tight">{diff.name}</span>
+                      {best !== null ? (
+                        <span className="text-[10px] font-mono tabular-nums text-accent group-hover/diff:text-primary-foreground/90 leading-tight flex items-center gap-0.5">
+                          <Trophy size={9} className="shrink-0" />
+                          {formatBestTime(best)}
+                        </span>
+                      ) : (
+                        <span className="text-[10px] font-mono text-muted-foreground/60 group-hover/diff:text-primary-foreground/70 leading-tight">
+                          —
+                        </span>
+                      )}
+                    </Link>
+                  );
+                })}
               </div>
             </div>
           </motion.div>

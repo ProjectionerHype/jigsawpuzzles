@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
-import { CheckCircle2, Flame, Share2 } from "lucide-react";
+import { CheckCircle2, Flame, Share2, Trophy } from "lucide-react";
 import { PUZZLE_IMAGES, DIFFICULTIES } from "@/lib/images";
 import {
   getCurrentStreak,
@@ -11,6 +11,7 @@ import {
   buildShareText,
   shareOrCopy,
 } from "@/lib/daily-progress";
+import { getBestTime, formatBestTime } from "@/lib/best-times";
 
 function getUtcDayIndex(d: Date): number {
   return Math.floor(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()) / 86_400_000);
@@ -226,18 +227,28 @@ export default function Daily() {
               {completedToday ? "Play again at any difficulty" : "Choose your difficulty"}
             </p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              {DIFFICULTIES.map((diff) => (
-                <Link
-                  key={diff.id}
-                  href={`/play?image=${puzzle.id}&pieces=${diff.pieces}&daily=1`}
-                  className="group flex flex-col items-center justify-center gap-1 px-4 py-3 rounded-xl bg-secondary/50 hover:bg-primary hover:text-primary-foreground border border-border hover:border-primary text-foreground transition-colors"
-                >
-                  <span className="font-semibold">{diff.name}</span>
-                  <span className="text-xs text-muted-foreground group-hover:text-primary-foreground/80">
-                    {diff.pieces} pieces
-                  </span>
-                </Link>
-              ))}
+              {DIFFICULTIES.map((diff) => {
+                void progressTick;
+                const best = getBestTime(puzzle.id, diff.pieces);
+                return (
+                  <Link
+                    key={diff.id}
+                    href={`/play?image=${puzzle.id}&pieces=${diff.pieces}&daily=1`}
+                    className="group flex flex-col items-center justify-center gap-1 px-4 py-3 rounded-xl bg-secondary/50 hover:bg-primary hover:text-primary-foreground border border-border hover:border-primary text-foreground transition-colors"
+                  >
+                    <span className="font-semibold">{diff.name}</span>
+                    <span className="text-xs text-muted-foreground group-hover:text-primary-foreground/80">
+                      {diff.pieces} pieces
+                    </span>
+                    {best !== null && (
+                      <span className="text-xs font-mono tabular-nums text-accent group-hover:text-primary-foreground/90 flex items-center gap-1 mt-0.5">
+                        <Trophy size={11} />
+                        {formatBestTime(best)}
+                      </span>
+                    )}
+                  </Link>
+                );
+              })}
             </div>
             {completedToday && (
               <button
