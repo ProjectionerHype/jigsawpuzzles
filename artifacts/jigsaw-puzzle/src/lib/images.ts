@@ -78,7 +78,7 @@ export const PUZZLE_IMAGES: PuzzleImage[] = [
   { id: "saturn", title: "Saturn's Rings", category: "Space", url: u("1614314107768-6018061b5b72"), description: "Saturn glowing softly with its iconic rings." },
 
   // ---------- Surprise (mystery picks from a public photo CDN) ----------
-  ...Array.from({ length: 400 }, (_, i): PuzzleImage => {
+  ...Array.from({ length: 500 }, (_, i): PuzzleImage => {
     const n = i + 1;
     return {
       id: `surprise-${n}`,
