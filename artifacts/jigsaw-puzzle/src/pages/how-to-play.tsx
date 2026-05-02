@@ -70,7 +70,7 @@ export default function HowToPlay() {
           </div>
         </section>
 
-        <div className="text-center mt-16 pt-8 border-t border-border">
+        <div className="not-prose text-center mt-16 pt-8 border-t border-border">
           <h3 className="text-2xl font-serif font-bold text-foreground mb-6">Ready to relax and play?</h3>
           <Link href="/gallery" className="inline-block bg-primary text-primary-foreground px-8 py-4 rounded-full text-lg font-medium hover:bg-primary/90 transition-all shadow-md hover:shadow-lg">
             Browse Puzzles
