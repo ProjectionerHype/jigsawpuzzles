@@ -112,8 +112,13 @@ export function Footer() {
             </ul>
           </div>
         </div>
-        <div className="border-t border-border mt-12 pt-8 text-center text-xs text-muted-foreground">
+        <div className="border-t border-border mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-muted-foreground">
           <p>&copy; {new Date().getFullYear()} jigsaw-puzzle.fun — All rights reserved.</p>
+          <nav className="flex items-center gap-5">
+            <Link href="/privacy-policy" className="hover:text-primary transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-primary transition-colors">Terms of Service</Link>
+            <Link href="/contact" className="hover:text-primary transition-colors">Contact</Link>
+          </nav>
         </div>
       </div>
     </footer>
