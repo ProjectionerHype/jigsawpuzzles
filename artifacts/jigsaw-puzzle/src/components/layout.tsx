@@ -109,6 +109,8 @@ export function Footer() {
               <li><Link href="/" className="text-muted-foreground hover:text-primary text-sm transition-colors">All Puzzles</Link></li>
               <li><Link href="/Daily-Jigsaw-Puzzle" className="text-muted-foreground hover:text-primary text-sm transition-colors">Daily Puzzle</Link></li>
               <li><Link href="/how-to-play" className="text-muted-foreground hover:text-primary text-sm transition-colors">How to Play</Link></li>
+              <li><Link href="/about" className="text-muted-foreground hover:text-primary text-sm transition-colors">About</Link></li>
+              <li><Link href="/contact" className="text-muted-foreground hover:text-primary text-sm transition-colors">Contact</Link></li>
             </ul>
           </div>
         </div>

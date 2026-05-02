@@ -10,6 +10,7 @@ import Daily from "@/pages/daily";
 import PrivacyPolicy from "@/pages/privacy-policy";
 import Terms from "@/pages/terms";
 import Contact from "@/pages/contact";
+import About from "@/pages/about";
 import { Header, Footer } from "@/components/layout";
 
 const queryClient = new QueryClient();
@@ -39,6 +40,7 @@ function Shell() {
           <Route path="/gallery" component={Gallery} />
           <Route path="/Daily-Jigsaw-Puzzle" component={Daily} />
           <Route path="/how-to-play" component={HowToPlay} />
+          <Route path="/about" component={About} />
           <Route path="/privacy-policy" component={PrivacyPolicy} />
           <Route path="/terms" component={Terms} />
           <Route path="/contact" component={Contact} />
