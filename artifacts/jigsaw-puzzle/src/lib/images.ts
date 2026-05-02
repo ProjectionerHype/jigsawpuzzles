@@ -33,7 +33,7 @@ export const PUZZLE_IMAGES: PuzzleImage[] = [
   { id: "northern-lights", title: "Northern Lights", category: "Nature", url: u("1483347756197-71ef80e95f73"), description: "Aurora dancing over a quiet arctic landscape." },
   { id: "cherry-blossom", title: "Cherry Blossoms", category: "Nature", url: u("1490604001847-b712b0c2f967"), description: "Pink cherry blossoms in full spring bloom." },
   { id: "desert-dunes", title: "Desert Dunes", category: "Nature", url: u("1473580044384-7ba9967e16a0"), description: "Rolling golden dunes at the edge of dusk." },
-  { id: "ocean-cliffs", title: "Ocean Cliffs", category: "Nature", url: u("1507525428034-b723cf961d3e"), description: "Dramatic cliffs meeting the deep blue ocean." },
+  { id: "ocean-cliffs", title: "Ocean Cliffs", category: "Nature", url: u("1505118380757-91f5f5632de0"), description: "Dramatic cliffs meeting the deep blue ocean." },
 
   // ---------- Animals ----------
   { id: "red-fox", title: "Red Fox", category: "Animals", url: u("1474511320723-9a56873867b5"), description: "A curious red fox resting in soft grass." },
