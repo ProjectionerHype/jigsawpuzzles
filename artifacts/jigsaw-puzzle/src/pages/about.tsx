@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "wouter";
 import { Puzzle, Flame, Image, Zap } from "lucide-react";
+import { useSeo } from "@/lib/use-seo";
 
 const FEATURES = [
   {
@@ -26,10 +27,12 @@ const FEATURES = [
 ];
 
 export default function About() {
-  useEffect(() => {
-    document.title = "About — jigsaw-puzzle.fun";
-    window.scrollTo(0, 0);
-  }, []);
+  useSeo({
+    title: "About",
+    description: "Learn about jigsaw-puzzle.fun — a free, beautiful, zero-friction online jigsaw puzzle game. No ads, no signup, just play.",
+    path: "/about",
+  });
+  useEffect(() => { window.scrollTo(0, 0); }, []);
 
   return (
     <div className="container mx-auto px-4 md:px-6 py-16 max-w-3xl">

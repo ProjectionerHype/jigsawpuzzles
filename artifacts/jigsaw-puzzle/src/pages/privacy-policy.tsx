@@ -1,10 +1,13 @@
 import { useEffect } from "react";
+import { useSeo } from "@/lib/use-seo";
 
 export default function PrivacyPolicy() {
-  useEffect(() => {
-    document.title = "Privacy Policy — jigsaw-puzzle.fun";
-    window.scrollTo(0, 0);
-  }, []);
+  useSeo({
+    title: "Privacy Policy",
+    description: "Read the jigsaw-puzzle.fun privacy policy. We store no personal data — all progress is kept locally in your browser.",
+    path: "/privacy-policy",
+  });
+  useEffect(() => { window.scrollTo(0, 0); }, []);
 
   return (
     <div className="container mx-auto px-4 md:px-6 py-16 max-w-3xl">

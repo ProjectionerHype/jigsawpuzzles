@@ -12,6 +12,7 @@ import {
   shareOrCopy,
 } from "@/lib/daily-progress";
 import { getBestTime, formatBestTime } from "@/lib/best-times";
+import { useSeo } from "@/lib/use-seo";
 
 function getUtcDayIndex(d: Date): number {
   return Math.floor(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()) / 86_400_000);
@@ -43,9 +44,11 @@ export default function Daily() {
   const [progressTick, setProgressTick] = useState(0);
   const [shareLabel, setShareLabel] = useState<string>("Share Result");
 
-  useEffect(() => {
-    document.title = "Daily Jigsaw Puzzle — jigsaw-puzzle.fun";
-  }, []);
+  useSeo({
+    title: "Daily Jigsaw Puzzle",
+    description: "Solve today's free daily jigsaw puzzle on jigsaw-puzzle.fun. A new puzzle every day — build your streak and share your result.",
+    path: "/Daily-Jigsaw-Puzzle",
+  });
 
   useEffect(() => {
     const t = setInterval(() => setNow(new Date()), 1000);

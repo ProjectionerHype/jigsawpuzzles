@@ -1,11 +1,14 @@
 import { useEffect } from "react";
 import { Mail, MessageSquare } from "lucide-react";
+import { useSeo } from "@/lib/use-seo";
 
 export default function Contact() {
-  useEffect(() => {
-    document.title = "Contact — jigsaw-puzzle.fun";
-    window.scrollTo(0, 0);
-  }, []);
+  useSeo({
+    title: "Contact",
+    description: "Get in touch with the jigsaw-puzzle.fun team. Send feedback, report bugs, or suggest new puzzle categories.",
+    path: "/contact",
+  });
+  useEffect(() => { window.scrollTo(0, 0); }, []);
 
   return (
     <div className="container mx-auto px-4 md:px-6 py-16 max-w-2xl">

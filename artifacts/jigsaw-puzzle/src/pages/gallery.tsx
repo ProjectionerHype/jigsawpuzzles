@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Trophy } from "lucide-react";
 import { PUZZLE_IMAGES, Category, DIFFICULTIES } from "@/lib/images";
 import { getBestTime, formatBestTime } from "@/lib/best-times";
+import { useSeo } from "@/lib/use-seo";
 
 const CATEGORIES: (Category | "All")[] = ["All", "Nature", "Animals", "Cities", "Art", "Space", "Surprise"];
 
@@ -19,9 +20,16 @@ export default function Gallery() {
   const [activeCategory, setActiveCategory] = useState<Category | "All">(() => readCategoryFromQuery(search));
   const [bestTick, setBestTick] = useState(0);
 
-  useEffect(() => {
-    document.title = "Free Online Jigsaw Puzzle Game";
-  }, []);
+  const seoCategory = activeCategory === "All" ? null : activeCategory;
+  useSeo({
+    title: seoCategory
+      ? `${seoCategory} Jigsaw Puzzles — Free Online`
+      : "Free Online Jigsaw Puzzle Game",
+    description: seoCategory
+      ? `Play free online ${seoCategory.toLowerCase()} jigsaw puzzles. Choose Easy, Medium, Hard, or Expert difficulty. No ads, no signup.`
+      : "Play free online jigsaw puzzles with beautiful images, satisfying snap mechanics, and multiple difficulty levels. No ads, no signup — just play.",
+    path: seoCategory ? `/?category=${seoCategory.toLowerCase()}` : "/",
+  });
 
   useEffect(() => {
     setActiveCategory(readCategoryFromQuery(search));

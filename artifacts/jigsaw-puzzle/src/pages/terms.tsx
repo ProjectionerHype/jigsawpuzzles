@@ -1,10 +1,13 @@
 import { useEffect } from "react";
+import { useSeo } from "@/lib/use-seo";
 
 export default function Terms() {
-  useEffect(() => {
-    document.title = "Terms of Service — jigsaw-puzzle.fun";
-    window.scrollTo(0, 0);
-  }, []);
+  useSeo({
+    title: "Terms of Service",
+    description: "jigsaw-puzzle.fun terms of service. Free to use, no accounts required, no ads.",
+    path: "/terms",
+  });
+  useEffect(() => { window.scrollTo(0, 0); }, []);
 
   return (
     <div className="container mx-auto px-4 md:px-6 py-16 max-w-3xl">

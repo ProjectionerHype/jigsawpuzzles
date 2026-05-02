@@ -1,10 +1,12 @@
-import { useEffect } from "react";
 import { Link } from "wouter";
+import { useSeo } from "@/lib/use-seo";
 
 export default function HowToPlay() {
-  useEffect(() => {
-    document.title = "How to Play - Free Online Jigsaw Puzzle Game";
-  }, []);
+  useSeo({
+    title: "How to Play Jigsaw Puzzles Online",
+    description: "Learn how to play free online jigsaw puzzles on jigsaw-puzzle.fun. Drag pieces, use hints, choose difficulty, and beat your best time.",
+    path: "/how-to-play",
+  });
 
   return (
     <div className="container mx-auto px-4 md:px-6 py-12 max-w-4xl">
